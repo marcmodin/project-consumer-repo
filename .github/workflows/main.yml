@@ -1,0 +1,27 @@
+name: "Terraform detect OS type"
+
+on: [push]
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  detect-os-job:
+    runs-on: ubuntu-latest
+
+    name: A job to test OS type on remote runner
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Initialize a new or existing Terraform working directory by creating initial files, downloading modules, etc.
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Detecting OS
+        run: terraform apply --auto-approve
