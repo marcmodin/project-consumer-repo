@@ -1,6 +1,7 @@
 name: "Terraform detect OS type"
 
-on: [push]
+on:
+  workflow_dispatch:
 
 defaults:
   run:
@@ -13,10 +14,12 @@ jobs:
     name: A job to test OS type on remote runner
     steps:
       # Checkout the repository to the GitHub Actions runner
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - uses: webfactory/ssh-agent@v0.4.0
+        with:
+          ssh-private-key: ${{ secrets.TERRAFORM_RSA }}
 
-      # Initialize a new or existing Terraform working directory by creating initial files, downloading modules, etc.
+        # Initialize a new or existing Terraform working directory by creating initial files, downloading modules, etc.
       - name: Terraform Init
         run: terraform init
 
