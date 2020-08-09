@@ -28,3 +28,12 @@ jobs:
 
       - name: Detecting OS
         run: terraform apply --auto-approve
+
+      - name: Trigger First Responder
+        run: |
+          curl \
+          -X POST \
+          -u "${{ secrets.PAT_USERNAME}}:${{secrets.PAT_TOKEN}}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/marcmodin/project-docs-repo/dispatches \
+          --data '{"event_type": "build_application"}'
